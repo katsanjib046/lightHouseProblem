@@ -43,7 +43,7 @@ def main():
         sys.exit("Usage: python lighthouse.py num_lighthouse(optional) dim(optional)")
 
     # number of flashes. Default is 1000.
-    samples_for_eachLH = 100
+    samples_for_eachLH = 1000
     # generate lighthouse coordinates
     global lightHCoords 
     lightHCoords= generateLighthouse(num_lighthouse, dim)
@@ -58,13 +58,16 @@ def main():
     visualizeFlashes(X, Y, dim)
 
     # run nested sampling
+    num_object = 100
     max_iter = 10000
-    results = nested_sampling(100, max_iter, sample_from_prior, explore)
+    results = nested_sampling(num_object, max_iter, sample_from_prior, explore)
     process_results(results)
     weights = get_weights(results, num_lighthouse)
     plot_weights(weights, num_lighthouse)
 
-        
+# conversion from u or w to x or z
+transverse = lambda unit: 4.0 * unit - 2.0 
+height = lambda unit: 2.0 * unit       
 
 
 def generateLighthouse(num_lighthouse=1, dim=2):
@@ -188,8 +191,8 @@ def sample_from_prior():
     Obj = LightHouse()
     Obj.u = random.random()                # uniform in (0,1)
     Obj.w = random.random()                # uniform in (0,1)
-    Obj.x = 4.0 * Obj.u - 2.0              # map to x
-    Obj.z = 2.0 * Obj.w                    # map to y
+    Obj.x = transverse(Obj.u)             # map to x
+    Obj.z = height(Obj.w)                    # map to y
     Obj.logL = logLikeHood([[Obj.x, Obj.z]], dim)
     return Obj
 
@@ -214,7 +217,7 @@ def logLikeHood(LHCoords, dim=2):
         elif dim==3:
             y = lightHCoords[i][1]
             for e in range(len(X)):
-                logLikeHood += (z / np.pi**2) / ((X[e] - x)*(X[e] - x) + (Y[e] - y)*(Y[e] - y) + z*z) / np.sqrt((X[e] - x)*(X[e] - x) + (Y[e] - y)*(Y[e] - y))
+                logLikeHood += np.log((z / np.pi**2) / ((X[e] - x)*(X[e] - x) + (Y[e] - y)*(Y[e] - y) + z*z) / np.sqrt((X[e] - x)*(X[e] - x) + (Y[e] - y)*(Y[e] - y)))
             
     return logLikeHood
 
@@ -325,6 +328,7 @@ def plot_weights(weights, model_num_LH):
     plt.ylabel('Weights')
 
     plt.plot(weights[:len(weights)//model_num_LH])
+    plt.show()
 
 
 #----------------- Testing and Running -----------------#
