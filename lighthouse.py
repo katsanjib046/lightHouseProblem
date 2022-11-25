@@ -158,7 +158,6 @@ def visualizeFlashes(X,Y,dim=2):
         plt.ylabel('y')
         plt.xlim(-10,10)
         plt.ylim(-10,10)
-    plt.show()
 
 #------------------ Class for Light House ------------------#
 class LHouses():
