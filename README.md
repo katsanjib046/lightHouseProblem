@@ -42,14 +42,16 @@ Usually, the integral is in a high-dimensional space but only a small region act
 1. Makes a ordering set of likelihood points.
 2. Introduces prior volume: fraction of prior contained within an iso-likelihood contour.
 $$X(\mathcal{L})=\int_{\mathcal{L}(\theta)>\mathcal{L}}\pi(\theta)d\theta$$
+
 ![nested-sampling](images/nested_sampling.png)
 
 3. Used to transform the evidence calculation from multidimensional integral to a one dimensional integral.
    $$Z=\int\mathcal{L}(\theta)d\theta\longrightarrow Z=\int_0^1\mathcal{L}(X)dX$$
 4. Points chosen randomly from the region $\mathcal{L}(X)$ are representative of posterior.
 5. Sample uniformly from prior maintaining a popilation of live points that is updated so that they contract around the peak of the posterior, as shown in the figure below.
-   ![nested-sampling-algo](images/algo.jpg)
-6. In practice, the likelihood-sorting is not even necessary. We could bypass the use of X by obtaining $\theta_i$ directly by sampling from within the equivalent constraint $L(\theta)>L_{i-1}$, in proportion to the prior density $\pi(\theta)$. Such points within the constraint can be found using MCMC. This is the method used in the implementation.
+
+![nested-sampling-algo](images/algo.jpg)
+1. In practice, the likelihood-sorting is not even necessary. We could bypass the use of X by obtaining $\theta_i$ directly by sampling from within the equivalent constraint $L(\theta)>L_{i-1}$, in proportion to the prior density $\pi(\theta)$. Such points within the constraint can be found using MCMC. This is the method used in the implementation.
 
 ### Nested Sampling Algorithm
 1. Initialize the population of live points with $N$ points uniformly distributed in the prior volume. 
@@ -64,6 +66,11 @@ $$X(\mathcal{L})=\int_{\mathcal{L}(\theta)>\mathcal{L}}\pi(\theta)d\theta$$
 
 ## Code Architecture
 ![code-architecture](images/architecture.png)
+## Usage:
+```python 
+python lighthouse.py <num_lighthouse>(optional) <dim>(optional)
+```
+If num_lighthouse and dim are not specified, the code will run with 1 lighthouses in 2D.
 
 ## Tests
 ### Uncertainty in Z vs the number of flashes
