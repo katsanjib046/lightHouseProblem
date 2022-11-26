@@ -9,6 +9,30 @@ A lighthouse is somewhere off a piece of straight coastline at a position α alo
 #### 3D Problem
 An analogous problem in 3D so that the lighthouse is now at a position (α, β, γ) and the flashes are emitted at random azimuths and polar angles. The photo-detectors are now located at positions {x<sub>k</sub>, y<sub>k</sub>}. Where is the lighthouse?’
 
+## Bayesian Inference
+Bayesian inference derives the posterior porbablity from two antecendents: a prior probability and a likelihood function. The posterior probability is the probability of a hypothesis given the data. The prior probability is the probability of a hypothesis before the data is observed. The likelihood function is the probability of the data given the hypothesis. The posterior probability is calculated using Bayes’ theorem:
+$$P(H|E)=\frac{P(E|H)\cdot P(H)}{P(E)}$$
+where, the LHS is the posterior probability, on RHS $P(E|H)$ is the likelihood function, $P(H)$ is the prior probability, and $P(E)$ is the evidence.
+### Likelihood Function
+#### 2D Case:
+The lighthouse emits light in random directions,
+$$ L(\theta)d\theta = \frac{1}{\pi}d\theta$$
+In cartesian coordinates, the likelihood function is,
+$$ L(\textbf{r})dr=\frac{1}{\pi}\frac{z_{LH}}{(x-x_{LH}^2)^2+z_{LH}^2}$$
+where, subscript LH denotes the Light House.
+#### 3D Case:
+The lighthouse emits light in random directions,
+$$L(\theta,\phi)d\theta d\phi=\frac{1}{\pi^2}d\theta d\phi$$
+In cartesian coordinates, the likelihood function is,
+$$L(\textbf{r})dr=\frac{1}{\pi^2}\frac{z_{LH}}{(x-x_{LH}^2)^2+(y-y_{LH}^2)^2+z_{LH}^2}\frac{1}{\sqrt{(x-x_{LH}^2)^2+(y-y_{LH}^2)^2}}$$
+where, subscript LH denotes the Light House.
+
+### Multiple Light Houses
+The likelihoods for multiple lighthouses add up with weighted ratios equal to their relative brightness.
+$$L(\textbf{r}_1,\textbf{r}_2)=I_1L(\textbf{r}_1)+I_2L(\textbf{r}_2)$$
+where, $I_1$ and $I_2$ are the relative brightness of the two lighthouses and $I_1+I_2=1$.
+
+
 ## Nested Sampling
 Nested Sampling is a computational method for Bayesian inference. It is a Monte Carlo method developed by physicist John Skilling in 2004.
 
